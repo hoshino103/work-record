@@ -1,0 +1,99 @@
+<div class="wrapper">
+  <div class="side-bar">
+   <%= render "records/side_bar" %>
+  </div>
+
+  
+  <div class="main">
+    <p>現在のデータ</p>
+    <table>
+      <th>名前</th>
+      <th>日付</th>
+      <th>出勤</th>
+      <th>退勤</th>
+      <th>休憩</th>
+      <tr>
+        <%= form_with model: @record1, local: true do |f|%>
+          <td> <%= @record.user.name %> </td>
+          <td> <%= @record.day_time %> </td>
+          <td> 
+            <%if @record1.nil? %>
+            <% elsif @record1.begin_time != nil %>
+              <%= @record1.begin_time.strftime("%H:%M") %>
+            <% end %>
+         </td>
+          <td> 
+            <%if @record1.nil? %> 
+            <% elsif @record1.finish_time != nil %>
+              <%= @record1.finish_time.strftime("%H:%M") %>
+            <% end %>
+          </td>
+          <td>
+            <%if @record1.nil? %> 
+            <% elsif @record1.break_time != nil %>
+              <%=@record1.break_time %>
+            <% end %>
+          </td>
+        <% end %>
+       </tr> 
+    </table>
+    
+    <p>編集データ</p>
+    <table>
+      <th>名前</th>
+      <th>日付</th>
+      <th>出勤</th>
+      <th>退勤</th>
+      <th>休憩</th>
+      <tr>  
+        <%= form_with model: @record, method: :post, url: complete_records_path, local: true do |f|%>
+          <td> <%= @record.user.name %> </td>
+          <td> <%= f.text_field :day_time, value: @record.day_time %> </td>
+          <td> 
+            <%if @record.begin_time != nil %>
+              <%= f.text_field :begin_time, value: @record.begin_time.strftime("%H:%M") %>
+            <%elsif @record1.nil? %>
+              <%= f.text_field :begin_time %>
+            <% elsif @record1.begin_time != nil %>
+              <%= f.text_field :begin_time, value: @record1.begin_time.strftime("%H:%M") %>
+            <% else %>
+              <%= f.text_field :begin_time %>
+            <% end %>
+          </td>
+          <td>
+            <% if @record.finish_time != nil %>
+              <%= f.text_field :finish_time, value: @record.finish_time.strftime("%H:%M") %>
+            <% elsif @record1.nil? %> 
+              <%= f.text_field :finish_time %>
+            <% elsif @record1.finish_time != nil %>
+              <%= f.text_field :finish_time, value: @record1.finish_time.strftime("%H:%M") %>
+            <% else %>
+            <%= f.text_field :finish_time %>
+            <% end %>
+          </td>
+          <td>
+            <% if @record.break_time != nil %>
+              <%= f.text_field :break_time, value: @record.break_time%>
+            <% elsif @record1.nil? %> 
+              <%= f.text_field :break_time %>
+            <% elsif @record1.break_time != nil %>
+              <%= f.text_field :break_time, value: @record1.break_time %>
+             <% else %>
+              <%= f.text_field :break_time %>
+            <% end %>
+          </td>
+      </tr>
+    </table>
+    <div class="confirm-submit">
+          <%= f.submit '更新', class: "confirm-update-submit" %>
+        <% end %>
+          
+
+      <%= form_for @record, method: :post, url: back_records_path do |form| %>
+        <%= form.hidden_field :day_time %>
+        <%= form.hidden_field :begin_time %>
+        <%= form.hidden_field :finish_time %>
+        <%= form.submit '入力画面に戻る', class: "confirm-back-submit" %>
+      <% end %>
+    </div>
+  </div>

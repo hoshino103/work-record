@@ -1,0 +1,8 @@
+
+<% if user_signed_in? %>
+<ul>
+  <li class="side-bar-list"> <%= link_to "出退勤記録",  record_path(current_user.id) ,class:"delete-line" %> </li>
+  <li class="side-bar-list"> <%= link_to "マイページ",  record_path(current_user.id) ,class:"delete-line" %> </li>
+</ul>
+<% else %>
+<% end %>

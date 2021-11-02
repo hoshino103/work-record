@@ -1,0 +1,188 @@
+.wrapper {
+  display: flex;
+  background-color: rgb(245, 245, 245);
+}
+
+.side-bar {
+  background-color: rgb(255, 255, 255);
+  width: 300px;
+  height: 100vh;
+  margin: 20px;
+  display: block;
+  align-items: center;
+  border-radius:  30px;
+}
+ul {
+  text-align: center;
+}
+
+.side-bar-list {
+  margin: 20px;
+}
+
+.delete-line {
+  text-decoration: none;
+}
+
+
+
+
+.main {
+  width: calc(100vw - 300px);
+  background-color: rgb(245, 245, 245);
+  margin: 20px;
+  height: 100vh 
+}
+
+.time-content {
+  width: 55vw;
+  height: 30vh;
+  margin: 15px;
+  font-weight: bold;
+  border-radius:  30px;
+  background-color: rgb(255, 255, 255);
+  color: rgb(0, 157, 255);
+}
+
+.clock {
+  width: 100%;
+  height: 60%;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 250%;
+}
+.to-day {
+  width: 100%;
+  height: 40%;
+  display:flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 150%;
+}
+
+.submit {
+  background-color: rgb(92, 156, 191);
+  width: 55vw;
+  height: 40vh;
+  display:flex;
+  justify-content: center;
+  margin: 15px;
+  border-radius:  30px;
+  background-color: rgb(255, 255, 255);
+}
+
+.begin-form {
+  width: 100%;
+  height: 100%;
+  display:flex;
+  justify-content: center;
+}
+
+.finish-form {
+  width: 100%;
+  height: 100%;
+  display:block;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.finish-time-submit {
+  width: 80%;
+  height: 50%;
+  border-radius: 15px;
+  display: block;
+  background-color: aliceblue;
+  margin: 1.2rem;
+  font-weight: bold;
+  font-size: 2rem;
+  color:rgb(169, 110, 110);
+}
+
+
+.begin-time-submit {
+  width: 80%;
+  height: 50%;
+  border-radius: 15px;
+  background-color: aliceblue;
+  margin: 1.2rem;
+  font-weight: bold;
+  font-size: 2rem;
+  color:rgb(186, 232, 78);
+}
+
+.time-data {
+  width: 55vw;
+  height: 10vh;
+  display:block;
+  margin: 15px;
+  border-radius:  30px;
+}
+
+.data-name {
+  margin-left: 10px;
+}
+
+.data-form {
+  margin-left: 10px;
+}
+
+
+
+.main-header {
+  height: 70px;
+  background-color: #3c360a33;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  justify-content:space-between;
+}
+
+.title {
+  height: 20px;
+  width: 260px;
+  margin: 0 20px;
+  display: flex;
+}
+
+.main-box {
+  height: 20px;
+  margin: 0 20px;
+  display: flex;
+}
+
+.user-name, .login, .new-user {
+  padding: 0 5px;
+}
+
+table,th,td {
+  border: solid 1px;
+}
+
+.confirm-submit, .edit-submit{
+  display: flex;
+}
+.confirm-update-submit, .edit-update-submit, .edit-back-submit {
+  margin: 2rem;
+  width:170px;
+  height:45px;
+  line-height:45px;
+}
+
+.confirm-update-submit :hover{
+    background:#f7f7f7;
+    color:#FFC000;
+    box-shadow:0px 2px 2px 0px #DEDEDE ;
+}
+
+.confirm-back-submit {
+  margin: 2rem;
+  width:170px;
+  height:45px;
+  line-height:45px;
+}
+
+.confirm-back-submit :hover{
+  background:#f7f7f7;
+  color:#FFC000;
+  box-shadow:0px 2px 2px 0px #DEDEDE ;

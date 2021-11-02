@@ -1,0 +1,66 @@
+
+<div class="time-content">
+  <div class="to-day" id="to-day"><%= to_day%></div>
+  <div class="clock" id="clock"><%= time_now%></div>
+</div>
+  <div class="submit">
+    <%= form_with model: @record, method: :post, class: "begin-form", local: true do |f| %>
+      <%= f.hidden_field :day_time, id:"begin-day", value: day_now %>
+      <%= f.hidden_field :begin_time, id:"begin", value: time_now %>
+      <%= f.submit "出勤", class: "begin-time-submit" %>
+    <% end %>
+    <%= form_with model: @record, method: :post, class: "finish-form", local: true do |f| %>
+      <%= f.hidden_field :day_time, id:"finish-day", value: day_now %>
+      <%= f.hidden_field :finish_time, id:"finish", value: time_now %>
+      <%= f.submit "退勤", class: "finish-time-submit" %>
+      <%= f.label :break_time, "休憩時間" %>
+      <%= f.text_field :break_time, value: 0 %>
+    <% end %>
+  </div>
+
+  <div class ="time-data">
+    <% if @record1 != nil %>
+     <p class="data-name">今日のデータ</p>
+        <%= form_with model: @record1, class: "data-form", local: true do |f|%>
+       <table>
+            <th>名前</th>
+            <th>日付</th>
+            <th>出勤</th>
+            <th>退勤</th>
+            <th>休憩</th>
+            <tr>  
+          <td> <%= @record1.user.name %> </td>
+          <td> <%=@record1.day_time %> </td>
+          <td> 
+            <%if @record1.begin_time != nil %>
+              <%= @record1.begin_time.strftime("%H:%M") %>
+            <% elsif%>
+              <%= 'NoDate' %>
+            <% end %>
+          </td>
+          <td>
+            <%if @record1.finish_time != nil %>
+              <%= @record1.finish_time.strftime("%H:%M") %>
+            <% elsif%>
+              <%= 'NoDate' %>
+            <% end %>
+          </td>
+          <td>
+            <%if @record1.break_time != nil %>
+              <%=@record1.break_time%>
+            <% elsif%>
+              <%= 'NoDate' %>
+            <% end %>
+          </td>
+        </tr>
+    </table>
+  <% end %>
+<% end %>
+  </div>
+
+
+
+
+
+
+

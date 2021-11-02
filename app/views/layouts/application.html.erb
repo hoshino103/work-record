@@ -1,15 +1,29 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>WorkRecord</title>
+    <title>TimeRecord</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-
+    <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.18.1/build/cssreset/cssreset-min.css"> 
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
   <body>
+  <div class="main-header">
+    <div class="title">
+      <p> <%= link_to "Time.Record", root_path ,class:"delete-line" %> </p>
+    </div>
+    <div class="main-box">
+    <% if user_signed_in?%>
+      <span class="user-name">こんにちは<a href='root_path'><%=link_to current_user.name, record_path(current_user.id) ,class:"delete-line" %></a>さん</span>
+      <p> <%= link_to 'ログアウト', destroy_user_session_path, mothod: :DELETE, data: {confirm: "ログアウトしますか？"} ,class:"delete-line" %> </p>
+    <% else %>
+      <p class="login"> <%= link_to 'ログイン', new_user_session_path, class:"delete-line" %>  </p>
+      <p class="new-user"><%= link_to '新規登録', new_user_registration_path ,class:"delete-line" %></p>
+    <% end %>
+  </div>
+</div>
     <%= yield %>
   </body>
 </html>

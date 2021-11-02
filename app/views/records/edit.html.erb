@@ -1,0 +1,46 @@
+<div class="wrapper">
+  <div class="side-bar">
+   <%= render "records/side_bar" %>
+  </div>
+  <div class="main">
+   <p>編集データ</p>
+        <%= form_with model: @record, local: true do |f|%>
+         <table>
+            <th>名前</th>
+            <th>日付</th>
+            <th>出勤</th>
+            <th>退勤</th>
+            <th>休憩</th>
+            <tr>  
+          <td> <%= @record.user.name %> </td>
+          <td> <%= f.text_field :day_time, value: @record.day_time %> </td>
+          <td> 
+            <%if @record.begin_time != nil %>
+              <%= f.text_field :begin_time, value: @record.begin_time.strftime("%H:%M") %>
+            <% elsif%>
+              <%= f.text_field :begin_time %>
+            <% end %>
+          </td>
+          <td>
+            <%if @record.finish_time != nil %>
+              <%= f.text_field :finish_time, value: @record.finish_time.strftime("%H:%M") %>
+            <% elsif%>
+              <%= f.text_field :finish_time %>
+            <% end %>
+          </td>
+          <td>
+            <%if @record.break_time != nil %>
+              <%= f.text_field :break_time, value: @record.break_time%>
+            <% elsif%>
+              <%= f.text_field :break_time %>
+            <% end %>
+          </td>
+        </tr>
+    </table>
+    <div class="edit-submit">
+      <%= f.submit '更新', class: "edit-update-submit" %>
+  <% end %>
+      <%= button_to '戻る', record_path(current_user.id), method: :get, class: "edit-back-submit" %>    
+   </div>
+</div>
+
