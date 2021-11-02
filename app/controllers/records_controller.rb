@@ -3,26 +3,25 @@ class RecordsController < ApplicationController
     @records = Record.all
     @record = Record.new
     if user_signed_in?
-      @record1 = Record.find_by(day_time:today , user_id:current_user.id)
+      @record1 = Record.find_by(day_time: today , user_id: current_user.id)
     end
   end
 
   def create
     @record = Record.new(record_params)
     #ログインユーザーの今日の出退勤レコード
-    @record1 = Record.find_by(day_time:today , user_id:current_user.id)
-    if @record1.nil? && @record.finish_time !=nil? && @record.begin_time.nil?
+    @record1 = Record.find_by(day_time: today , user_id: current_user.id)
+    #今日のデータがなく、送られてきたデータに退勤があり、送られてきたデータに出勤時間がない時
+    if @record1.nil? && @record.finish_time != nil && @record.begin_time.nil?
       render action: :confirm
+    #今日のデータがない場合、送られてきたデータを保存する
     elsif @record1 == nil
-       @record.save
-       redirect_to root_path
-    #現在のレコードに出勤時間がなく、送られてきたデータに出勤時間がある場合
-    elsif @record1.begin_time.nil? && @record1.finish_time != nil && @record.begin_time != nil
+      @record.save
+      redirect_to root_path
+    elsif @record1.finish_time != nil && @record.finish_time != nil
       render action: :confirm
-    elsif @record1.begin_time == nil && @record.begin_time != nil
-      @record1.update(record_params)
-      redirect_to root_path    #現在のレコードに退勤時間がなく、送られてきたデータに退勤時間がある場合
-    elsif @record1.finish_time == nil && @record.finish_time != nil
+    #現在のデータに出勤時間があり、退勤時間が送られてきた場合
+    elsif @record1.begin_time != nil && @record.finish_time != nil
       @record1.update(record_params)
       redirect_to root_path
     else
@@ -102,7 +101,7 @@ class RecordsController < ApplicationController
     year = time.year
     month = time.month
     day = time.day
-    "#{year}#{month}#{day}"
+    "#{year}-#{month}-#{day}"
   end
   def now_month
     time = Time.now
