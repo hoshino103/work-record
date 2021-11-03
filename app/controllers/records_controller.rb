@@ -1,4 +1,9 @@
 class RecordsController < ApplicationController
+  before_action :redirect_root, except: :index
+  before_action :set_new_record, only: [:create, :back, :confirm, :complete] 
+  before_action :set_today_record, only: [:create, :complete, :show] 
+  before_action :set_id_record, only: [:edit, :update, :destroy ] 
+
   def index
     @records = Record.all
     @record = Record.new
@@ -8,9 +13,6 @@ class RecordsController < ApplicationController
   end
 
   def create
-    @record = Record.new(record_params)
-    #ログインユーザーの今日の出退勤レコード
-    @record1 = Record.find_by(day_time: today , user_id: current_user.id)
     #今日のデータがなく、送られてきたデータに退勤があり、送られてきたデータに出勤時間がない時
     if @record1.nil? && @record.finish_time != nil && @record.begin_time.nil?
       render action: :confirm
@@ -30,36 +32,32 @@ class RecordsController < ApplicationController
   end
 
   def back
-		@record = Record.new(record_params)
 		redirect_to root_path
 	end
 
 	def confirm
 		@record = Record.new
-		@record = Record.new(record_params)
 	end
 
 	def complete
-    @record1 = Record.find_by(day_time:today , user_id:current_user.id)
-    @record = @record = Record.new(record_params)
-    if @record1.nil? && @record.begin_time != nil && @record.finish_time != nil && @record.break_time !=nil && @record.valid?
+    #現在のデータがなく、送られてきたデータに出勤と退勤データがある場合かつ出勤時間が退勤時間が遅い時
+    if @record1.nil? && @record.begin_time != nil && @record.finish_time != nil && check_time && check_break_time
        @record.save
        redirect_to record_path (current_user.id)
-		elsif @record1.update(record_params) 
+    #現在のデータがあり、出退勤データが送られてきた場合かつ、出勤時間が退勤時間が遅い時
+		elsif @record != nil && @record.begin_time != nil && @record.finish_time != nil && check_time && check_break_time
+      @record1.update(record_params)
       redirect_to record_path (current_user.id)
     else
-      @record = Record.new(record_params)
       render :confirm
     end
 	end
 
   def show
     @records = Record.where("day_time LIKE? AND user_id LIKE?", "%#{now_month}%", "%#{current_user.id}%").order('day_time')
-    @record1 = Record.find_by(day_time:today , user_id:current_user.id)
   end
 
   def edit
-    @record = Record.find(params[:id])
   end
 
   def update
@@ -67,13 +65,11 @@ class RecordsController < ApplicationController
     if @record1.update(record_params)
        redirect_to record_path(current_user.id)
     else 
-      @record = Record.find(params[:id])
       render :edit
     end
   end
 
   def destroy
-    @record = Record.find(params[:id])
     @record.destroy
     redirect_to record_path
   end
@@ -84,8 +80,25 @@ class RecordsController < ApplicationController
   
   private
 
+  def redirect_root
+    redirect_to root_path unless user_signed_in?
+  end
+
   def record_params
     params.require(:record).permit(:day_time, :begin_time, :finish_time, :break_time).merge(user_id: current_user.id)
+  end
+
+  def set_new_record
+    @record = Record.new(record_params)
+  end
+
+  def set_id_record
+    @record = Record.find(params[:id])
+
+  end
+
+  def set_today_record
+    @record1 = Record.find_by(day_time:today , user_id:current_user.id)
   end
 
   def keyword_params
@@ -95,7 +108,6 @@ class RecordsController < ApplicationController
     params[:id]
   end
     
-
   def today
     time = Time.now
     year = time.year
@@ -103,6 +115,7 @@ class RecordsController < ApplicationController
     day = time.day
     "#{year}-#{month}-#{day}"
   end
+
   def now_month
     time = Time.now
     year = time.year
@@ -110,4 +123,16 @@ class RecordsController < ApplicationController
     day = time.day
     "#{year}-#{month}"
   end
+end
+
+def check_time
+  @record.begin_time < @record.finish_time
+end
+
+def check_break_time
+  (@record.finish_time - @record.begin_time)/3600 > @record.break_time
+end
+
+def check_day_time
+    @record.user_id == current_user.id
 end

@@ -22,40 +22,40 @@
     <% if @record1 != nil %>
      <p class="data-name">今日のデータ</p>
         <%= form_with model: @record1, class: "data-form", local: true do |f|%>
-       <table>
+          <table>
             <th>名前</th>
             <th>日付</th>
             <th>出勤</th>
             <th>退勤</th>
             <th>休憩</th>
             <tr>  
-          <td> <%= @record1.user.name %> </td>
-          <td> <%=@record1.day_time %> </td>
-          <td> 
-            <%if @record1.begin_time != nil %>
-              <%= @record1.begin_time.strftime("%H:%M") %>
-            <% elsif%>
-              <%= 'NoDate' %>
-            <% end %>
-          </td>
-          <td>
-            <%if @record1.finish_time != nil %>
-              <%= @record1.finish_time.strftime("%H:%M") %>
-            <% elsif%>
-              <%= 'NoDate' %>
-            <% end %>
-          </td>
-          <td>
-            <%if @record1.break_time != nil %>
-              <%=@record1.break_time%>
-            <% elsif%>
-              <%= 'NoDate' %>
-            <% end %>
-          </td>
-        </tr>
-    </table>
-  <% end %>
-<% end %>
+              <td> <%= @record1.user.name %> </td>
+              <td> <%=@record1.day_time %> </td>
+              <td> 
+                <%if @record1.begin_time != nil %>
+                  <%= @record1.begin_time.strftime("%H:%M") %>
+                <% elsif%>
+                  <%= 'NoDate' %>
+                <% end %>
+              </td>
+              <td>
+                <%if @record1.finish_time != nil %>
+                  <%= @record1.finish_time.strftime("%H:%M") %>
+                <% elsif%>
+                  <%= 'NoDate' %>
+                <% end %>
+              </td>
+              <td>
+                <%if @record1.break_time != nil %>
+                  <%=@record1.break_time%>
+                <% elsif%>
+                  <%= 'NoDate' %>
+                <% end %>
+              </td>
+            </tr>
+          </table>
+        <% end %>
+    <% end %>
   </div>
 
 
