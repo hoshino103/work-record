@@ -43,13 +43,14 @@
       </td>
       <td>
         <%if record.break_time != nil %>
-          <%= record.break_time%>
+          <%= record.break_time.to_s + '分'%>
           <% total_break_time += record.break_time %>
         <% end %>
       </td>
       <td>
       <% if record.begin_time != nil && record.finish_time != nil && record.break_time != nil %>
-        <% time = (record.finish_time - record.begin_time) /3600 - record.break_time %>
+        <% time = (record.finish_time - record.begin_time) /60 - record.break_time %>
+        <% time = time/60 %>
         <%= time.round(1).to_s + '時間' %>
         <% total_time += time %>
       <% else %>
@@ -58,7 +59,8 @@
       </td>
       <td>
        <% if record.begin_time != nil && record.finish_time != nil && record.break_time != nil %>
-        <% time = (record.finish_time - record.begin_time) /3600 - record.break_time %>
+        <% time = (record.finish_time - record.begin_time) /60 - record.break_time %>
+        <% time = time/60 %>
         <% money =  time * current_user.money %>
         <%= money.round(0).to_s + '円' %>
       <% else %>
@@ -75,16 +77,19 @@
   <% end %>
  
 </table>
-
+<p>合計</p>
 <table>
  <tr>
     <th> 年/月 </th>
     <th>休憩</th>
     <th>労働時間</th>
-    <th>合計</th>
+    <th>賃金</th>
   </tr>
     <td> <%= now_month + '月' %> </td>
-    <td> <%= total_break_time.round(1).to_s + '時間' %> </td>
+    <td> 
+      <% total_break_time = total_break_time.to_f / 60 %>
+      <%= total_break_time.round(1).to_s + '時間' %> 
+    </td>
     <td> <%= total_time.round(1).to_s + '時間' %> </td>
     <% total_money = total_time * current_user.money %>
     <td> <%= total_money.round(0).to_s + '円' %> </td>

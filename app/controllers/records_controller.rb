@@ -17,7 +17,7 @@ class RecordsController < ApplicationController
     if @record1.nil? && @record.finish_time != nil && @record.begin_time.nil?
       render action: :confirm
     #今日のデータがない場合、送られてきたデータを保存する
-    elsif @record1 == nil
+    elsif @record1.nil?
       @record.save
       redirect_to root_path
     elsif @record1.finish_time != nil && @record.finish_time != nil
@@ -41,11 +41,11 @@ class RecordsController < ApplicationController
 
 	def complete
     #現在のデータがなく、送られてきたデータに出勤と退勤データがある場合かつ出勤時間が退勤時間が遅い時
-    if @record1.nil? && @record.begin_time != nil && @record.finish_time != nil && check_time && check_break_time
+    if @record1.nil? && @record.begin_time != nil && @record.finish_time != nil && check_time && check_break_time && @record.valid?
        @record.save
        redirect_to record_path (current_user.id)
     #現在のデータがあり、出退勤データが送られてきた場合かつ、出勤時間が退勤時間が遅い時
-		elsif @record != nil && @record.begin_time != nil && @record.finish_time != nil && check_time && check_break_time
+		elsif @record != nil && @record.begin_time != nil && @record.finish_time != nil && check_time && check_break_time && @record.valid?
       @record1.update(record_params)
       redirect_to record_path (current_user.id)
     else
@@ -130,9 +130,11 @@ def check_time
 end
 
 def check_break_time
-  (@record.finish_time - @record.begin_time)/3600 > @record.break_time
+  (@record.finish_time - @record.begin_time)/60 > @record.break_time
 end
 
 def check_day_time
     @record.user_id == current_user.id
 end
+
+

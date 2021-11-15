@@ -16,7 +16,7 @@ ActiveRecord::Schema.define(version: 2021_11_02_025233) do
     t.date "day_time"
     t.time "begin_time"
     t.time "finish_time"
-    t.float "break_time"
+    t.integer "break_time"
     t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -29,6 +29,7 @@ ActiveRecord::Schema.define(version: 2021_11_02_025233) do
     t.string "name", null: false
     t.integer "admin"
     t.integer "money"
+    t.integer "default_break_time"
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"

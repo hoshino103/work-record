@@ -7,6 +7,7 @@
     <%= form_with model: @record, method: :post, class: "begin-form", local: true do |f| %>
       <%= f.hidden_field :day_time, id:"begin-day", value: day_now %>
       <%= f.hidden_field :begin_time, id:"begin", value: time_now %>
+      <%= f.hidden_field :break_time, value: current_user.default_break_time %>
       <%= f.submit "出勤", class: "begin-time-submit" %>
     <% end %>
     <%= form_with model: @record, method: :post, class: "finish-form", local: true do |f| %>
@@ -14,7 +15,7 @@
       <%= f.hidden_field :finish_time, id:"finish", value: time_now %>
       <%= f.submit "退勤", class: "finish-time-submit" %>
       <%= f.label :break_time, "休憩時間" %>
-      <%= f.text_field :break_time, value: 0 %>
+      <%= f.text_field :break_time, value: current_user.default_break_time %>
     <% end %>
   </div>
 
@@ -47,7 +48,7 @@
               </td>
               <td>
                 <%if @record1.break_time != nil %>
-                  <%=@record1.break_time%>
+                  <%= @record1.break_time.to_s + '分' %>
                 <% elsif%>
                   <%= 'NoDate' %>
                 <% end %>

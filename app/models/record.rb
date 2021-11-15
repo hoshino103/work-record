@@ -5,6 +5,7 @@ class Record < ApplicationRecord
   validates :begin_time, presence: true, on: :complete, on: :update 
   validates :finish_time, presence: true, on: :complete,  on: :update
   validates :break_time, presence: true, on: :complete, on: :update
+  validates :break_time, numericality:{ only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 9999}
 
   validate :check_begin_time, on: :complete, on: :update
   validate :check_finish_time, on: :complete, on: :update
@@ -22,7 +23,7 @@ class Record < ApplicationRecord
   end
   def check_break_time 
       if begin_time != nil && finish_time != nil
-        work_time = (finish_time - begin_time) / 3600
+        work_time = (finish_time - begin_time) / 60
         errors.add(:break_time, "登録できません")if  work_time.to_f < break_time.to_f
       end
   end

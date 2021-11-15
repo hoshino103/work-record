@@ -9,6 +9,7 @@ class DeviseCreateUsers < ActiveRecord::Migration[6.0]
       t.string :name, null: false
       t.integer :admin
       t.integer :money
+      t.integer :default_break_time
       
       ## Recoverable
       t.string   :reset_password_token
