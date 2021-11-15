@@ -1,4 +1,7 @@
 
+<% if user_signed_in? %>
+  
+
 <div class="time-content">
   <div class="to-day" id="to-day"><%= to_day%></div>
   <div class="clock" id="clock"><%= time_now%></div>
@@ -7,7 +10,9 @@
     <%= form_with model: @record, method: :post, class: "begin-form", local: true do |f| %>
       <%= f.hidden_field :day_time, id:"begin-day", value: day_now %>
       <%= f.hidden_field :begin_time, id:"begin", value: time_now %>
-      <%= f.hidden_field :break_time, value: current_user.default_break_time %>
+      <% if current_user.default_break_time != nil %>
+        <%= f.hidden_field :break_time, value: current_user.default_break_time %>
+      <% end %>
       <%= f.submit "出勤", class: "begin-time-submit" %>
     <% end %>
     <%= form_with model: @record, method: :post, class: "finish-form", local: true do |f| %>
@@ -58,6 +63,7 @@
         <% end %>
     <% end %>
   </div>
+<% end %>
 
 
 
